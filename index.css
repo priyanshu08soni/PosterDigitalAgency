@@ -1,0 +1,805 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Inter", sans-serif;
+    overflow: hidden;
+    background: #000;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .poster-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Enhanced dark gradient background */
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0f 100%);
+    /* Added perspective for 3D page flip effect */
+    perspective: 1000px;
+  }
+  
+  /* Added new static background for content page */
+  .content-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0f 100%);
+    opacity: 0.8;
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.3) 0%, rgba(22, 33, 62, 0.4) 50%, rgba(15, 15, 35, 0.5) 100%);
+    z-index: 2;
+  }
+  
+  .page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    opacity: 0;
+    /* Replaced sliding animation with 3D page flip effect */
+    transform-origin: left center;
+    transform: rotateY(-90deg);
+    transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backface-visibility: hidden;
+  }
+  
+  .page.active {
+    opacity: 1;
+    /* Active page shows flat (no rotation) */
+    transform: rotateY(0deg);
+  }
+  
+  .page.exit {
+    opacity: 0;
+    /* Exiting page flips away like turning a book page */
+    transform: rotateY(90deg);
+  }
+  
+  /* Page 1 - Hero */
+  .hero-content {
+    text-align: center;
+    color: white;
+    max-width: 90%;
+    position: relative;
+    z-index: 3;
+  }
+  
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/design-workspace.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 1;
+  }
+  
+  .logo {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #00d4ff, #ffffff, #64ffda, #ffffff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+    text-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 0 80px rgba(100, 255, 218, 0.3);
+  }
+  
+  .tagline {
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeInUp 2s ease-out 0.5s forwards;
+    letter-spacing: 2px;
+    color: #64ffda;
+  }
+  
+  .subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.5rem);
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeInUp 2s ease-out 1s forwards;
+    max-width: 600px;
+    line-height: 1.6;
+    color: #e0e0e0;
+  }
+  
+  /* Page 2 - Services Hero Section */
+  .services-hero {
+    width: 90%;
+    max-width: 1200px;
+    color: white;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Removed fixed height and padding to fit viewport */
+    height: 100%;
+    padding: 1rem;
+  }
+  
+  .services-header {
+    /* Reduced margin to fit better in viewport */
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeInUp 2s ease-out 0.5s forwards;
+  }
+  
+  .services-main-title {
+    font-family: "Playfair Display", serif;
+    /* Reduced font size for better viewport fit */
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 800;
+    /* Reduced margin for tighter spacing */
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #00d4ff, #ffffff, #64ffda, #ffffff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+    text-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+  }
+  
+  .services-subtitle {
+    /* Reduced font size for viewport fit */
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: #64ffda;
+    letter-spacing: 1px;
+    opacity: 0.9;
+  }
+  
+  .services-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Reduced gap for tighter layout */
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+    /* Reduced margin for viewport fit */
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-highlight {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    /* Reduced padding for more compact cards */
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+    border-radius: 20px;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 1s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Added styling for service background images */
+  .service-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+  }
+  
+  .service-highlight:hover .service-image {
+    opacity: 0.5;
+  }
+  
+  .service-highlight:nth-child(1) {
+    animation: slideInUp 1s ease-out 1s forwards, cardPulse 4s ease-in-out 2s infinite;
+  }
+  .service-highlight:nth-child(2) {
+    animation: slideInUp 1s ease-out 1.3s forwards, cardPulse 4s ease-in-out 2.3s infinite;
+  }
+  .service-highlight:nth-child(3) {
+    animation: slideInUp 1s ease-out 1.6s forwards, cardPulse 4s ease-in-out 2.6s infinite;
+  }
+  .service-highlight:nth-child(4) {
+    animation: slideInUp 1s ease-out 1.9s forwards, cardPulse 4s ease-in-out 2.9s infinite;
+  }
+  
+  .service-highlight:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 212, 255, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(100, 255, 218, 0.2);
+  }
+  
+  .service-highlight::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.1), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  .service-highlight:hover::before {
+    left: 100%;
+  }
+  
+  .service-number {
+    font-family: "Playfair Display", serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    flex-shrink: 0;
+  }
+  
+  .service-info {
+    text-align: left;
+    flex: 1;
+  }
+  
+  .service-info h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-family: "Playfair Display", serif;
+  }
+  
+  .service-info p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    opacity: 0.9;
+  }
+  
+  .services-footer {
+    opacity: 0;
+    animation: fadeInUp 2s ease-out 2.5s forwards;
+  }
+  
+  .services-cta {
+    font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    font-weight: 500;
+    color: #64ffda;
+    text-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    letter-spacing: 0.5px;
+  }
+  
+  /* Floating Elements */
+  .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(100, 255, 218, 0.1);
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .circle-1 {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  
+  .circle-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 15%;
+    animation-delay: 2s;
+  }
+  
+  .circle-3 {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+  }
+  
+  /* Added geometric shapes for visual enhancement */
+  .geometric-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .shape {
+    position: absolute;
+    opacity: 0.1;
+  }
+  
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 52px solid #64ffda;
+    top: 15%;
+    right: 10%;
+    animation: rotate 12s linear infinite;
+  }
+  
+  .square {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #00d4ff, #64ffda);
+    top: 70%;
+    left: 5%;
+    animation: float 8s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  
+  .hexagon {
+    width: 50px;
+    height: 43.3px;
+    background: #00d4ff;
+    position: relative;
+    top: 25%;
+    right: 5%;
+    animation: pulse 6s ease-in-out infinite;
+  }
+  
+  .hexagon:before,
+  .hexagon:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+  }
+  
+  .hexagon:before {
+    bottom: 100%;
+    border-bottom: 14.43px solid #00d4ff;
+  }
+  
+  .hexagon:after {
+    top: 100%;
+    border-top: 14.43px solid #00d4ff;
+  }
+  
+  /* Added particle system for dynamic background */
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #64ffda;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #64ffda;
+    animation: particleFloat 15s linear infinite;
+  }
+  
+  .particle:nth-child(1) {
+    left: 10%;
+    animation-delay: 0s;
+  }
+  .particle:nth-child(2) {
+    left: 20%;
+    animation-delay: 2s;
+  }
+  .particle:nth-child(3) {
+    left: 30%;
+    animation-delay: 4s;
+  }
+  .particle:nth-child(4) {
+    left: 40%;
+    animation-delay: 6s;
+  }
+  .particle:nth-child(5) {
+    left: 50%;
+    animation-delay: 8s;
+  }
+  .particle:nth-child(6) {
+    left: 60%;
+    animation-delay: 10s;
+  }
+  .particle:nth-child(7) {
+    left: 70%;
+    animation-delay: 12s;
+  }
+  .particle:nth-child(8) {
+    left: 80%;
+    animation-delay: 14s;
+  }
+  .particle:nth-child(9) {
+    left: 90%;
+    animation-delay: 1s;
+  }
+  .particle:nth-child(10) {
+    left: 95%;
+    animation-delay: 3s;
+  }
+  
+/* Enhanced grid overlay with multiple layers and improved visibility */
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Enhanced multi-layered grid pattern */
+    /* Main grid lines */
+    background-image: linear-gradient(rgba(77, 208, 225, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(77, 208, 225, 0.12) 1px, transparent 1px), /* Secondary smaller grid */
+      linear-gradient(rgba(129, 199, 132, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(129, 199, 132, 0.06) 1px, transparent 1px), /* Accent lines every 5th grid */
+      linear-gradient(rgba(77, 208, 225, 0.2) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(77, 208, 225, 0.2) 2px, transparent 2px);
+    background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, 250px 250px, 250px 250px;
+    pointer-events: none;
+    z-index: 1;
+    animation: gridMove 20s linear infinite;
+  }
+  
+  /* Added animated grid dots at intersections */
+  .grid-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 50px 50px, rgba(77, 208, 225, 0.3) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 2;
+    animation: gridPulse 4s ease-in-out infinite;
+  }
+  
+  /* Added diagonal grid pattern for depth */
+  .diagonal-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(45deg, rgba(77, 208, 225, 0.04) 1px, transparent 1px),
+      linear-gradient(-45deg, rgba(129, 199, 132, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px, 30px 30px;
+    pointer-events: none;
+    z-index: 1;
+    animation: diagonalMove 25s linear infinite;
+  }
+  
+  
+  /* Added glowing orbs for ambient lighting */
+  .glowing-orbs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100, 255, 218, 0.2) 0%, rgba(0, 212, 255, 0.1) 50%, transparent 100%);
+    animation: orbFloat 10s ease-in-out infinite;
+  }
+  
+  .orb-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 80%;
+    animation-delay: 0s;
+  }
+  
+  .orb-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 20%;
+    left: 10%;
+    animation-delay: 3s;
+  }
+  
+  .orb-3 {
+    width: 100px;
+    height: 100px;
+    top: 60%;
+    right: 20%;
+    animation-delay: 6s;
+  }
+  
+  /* Spotlight Effect */
+  .spotlight {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(100, 255, 218, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    animation: spotlight 8s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-20px) rotate(120deg);
+    }
+    66% {
+      transform: translateY(10px) rotate(240deg);
+    }
+  }
+  
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+  }
+  
+  /* Modified cardPulse animation to be softer and more subtle */
+  @keyframes cardPulse {
+    0%,
+    100% {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(100, 255, 218, 0.05), 0 0 0 0 rgba(100, 255, 218, 0.2);
+      border-color: rgba(100, 255, 218, 0.3);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 22px 44px rgba(0, 0, 0, 0.35), 0 0 30px rgba(100, 255, 218, 0.15), 0 0 0 8px rgba(100, 255, 218, 0.05);
+      border-color: rgba(100, 255, 218, 0.5);
+      transform: scale(1.01);
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes particleFloat {
+    0% {
+      transform: translateY(100vh) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px) scale(1);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes gridMove {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(50px, 50px);
+    }
+  }
+  
+  @keyframes orbFloat {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+    }
+    33% {
+      transform: translate(-30px, -20px) scale(1.1);
+      opacity: 0.5;
+    }
+    66% {
+      transform: translate(20px, -30px) scale(0.9);
+      opacity: 0.4;
+    }
+  }
+  
+  @keyframes spotlight {
+    0% {
+      top: -150px;
+      left: -150px;
+    }
+    25% {
+      top: -150px;
+      right: -150px;
+      left: auto;
+    }
+    50% {
+      bottom: -150px;
+      right: -150px;
+      top: auto;
+    }
+    75% {
+      bottom: -150px;
+      left: -150px;
+      right: auto;
+    }
+    100% {
+      top: -150px;
+      left: -150px;
+      bottom: auto;
+    }
+  }
+  
+  /* Added marquee animation keyframes */
+  @keyframes marqueeUp {
+    0% {
+      transform: translateY(100vh);
+    }
+    100% {
+      transform: translateY(-100vh);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .services-showcase {
+      /* Maintain flex column for mobile marquee */
+      grid-template-columns: 1fr;
+      /* Reduced gap for mobile viewport fit */
+      gap: 1rem;
+    }
+  
+    .service-highlight {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+      /* Further reduced padding for mobile */
+      padding: 1rem;
+    }
+  
+    /* Added mobile styling for service images */
+    .service-image {
+      opacity: 0.2;
+    }
+  
+    .service-highlight:hover .service-image {
+      opacity: 0.4;
+    }
+  
+    .service-info {
+      text-align: center;
+    }
+  
+    .service-number {
+      /* Reduced number size for mobile */
+      font-size: 2rem;
+    }
+  }
+  
+  @media (orientation: portrait) {
+    .logo {
+      font-size: clamp(2.5rem, 12vw, 6rem);
+    }
+  
+    .services-main-title {
+      /* Reduced title size for portrait orientation */
+      font-size: clamp(2rem, 8vw, 4rem);
+    }
+  
+    .services-hero {
+      /* Reduced padding for portrait viewport */
+      padding: 1rem;
+    }
+  
+    /* Added specific portrait adjustments for better fit */
+    .services-header {
+      margin-bottom: 1.5rem;
+    }
+  
+    .services-showcase {
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+  
