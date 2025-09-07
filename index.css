@@ -113,7 +113,7 @@
   
   .tagline {
     font-size: clamp(1.2rem, 3vw, 2.5rem);
-    font-weight: 300;
+    font-weight: 500;
     margin-bottom: 2rem;
     opacity: 0;
     animation: fadeInUp 2s ease-out 0.5s forwards;
@@ -122,8 +122,9 @@
   }
   
   .subtitle {
-    font-size: clamp(0.9rem, 2vw, 1.5rem);
-    font-weight: 400;
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: 2px;
     opacity: 0;
     animation: fadeInUp 2s ease-out 1s forwards;
     max-width: 600px;
@@ -174,7 +175,7 @@
   .services-subtitle {
     /* Reduced font size for viewport fit */
     font-size: clamp(1rem, 2.5vw, 1.5rem);
-    font-weight: 300;
+    font-weight: 500;
     color: #64ffda;
     letter-spacing: 1px;
     opacity: 0.9;
@@ -281,14 +282,15 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #ffffff;
-    font-family: "Playfair Display", serif;
   }
   
   .service-info p {
     font-size: 1rem;
     line-height: 1.6;
     color: #e0e0e0;
+    font-weight:500;
     opacity: 0.9;
+    letter-spacing: 1px;
   }
   
   .services-footer {
